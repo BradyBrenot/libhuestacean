@@ -1,0 +1,93 @@
+syntax = "proto3";
+
+/* Describes a type of light provider known by the daemon */
+message LightProviderArchetype {
+    //Archetype's name, e.g. "Philips Hue bridge"
+    string name = 0;
+
+    //Whether the provider supports low latency light updates
+    bool low_latency_supported = 1;
+        
+    //if > 0, how many low-latency lights can be present at once; if <= 0, no limit
+    int max_low_latency = 2;
+}
+
+/* A light contained within a device archetype, with its default location */
+message DeviceArchetypeLight {
+    LightLocation default_location = 0;
+}
+
+/* Describes a type of device known by the daemon */
+message DeviceArchetype {
+    //Whether the lights contained within can be moved (if not, only the whole device can be moved)
+    bool are_lights_movable = 0;
+    
+    //This device's lights, with their default location
+    map<int,DeviceArchetypeLight> lights = 1;
+}
+
+////////////////////////////////////////////////////////////////////////
+
+/* LightProvider is a service the daemon is using to connect to lights, 
+ * e.g. it may be a single Hue bridge, or it may be the Razer Chroma SDK 
+ */
+ message LightProvider {
+    //What sort of light provider is this? This is the underlying tech / API being used.
+    int archetype_id = 0;
+
+    //Name of the light provider. Disambiguates between providers of the same archetype.
+    string name = 1;
+}
+
+/* Devices are a thing in the real-world that emit light, and that Huestacean can control. */
+message Device {
+    //What sort of light is this? This is the underlying tech / API being used.
+    int archetype_id = 0;
+
+    //The device's friendly name, if it has one
+    int name = 1;
+}
+
+/* A room contains a bunch of devices with given spatial location */
+message Room {
+    /* The location of a device and its constituent lights within a room */
+    message DeviceInRoom {
+        //location of the device
+        DeviceLocation device_location = 0;
+
+        //location of the lights connected to the device, if they are moveable
+        map<int,LightLocation> light_location = 1;
+    }
+
+    //The name of this room
+    string name = 0;
+
+    //Devices contained within this room, along with their location
+    map<int, DeviceInRoom> devices = 1;
+}
+
+////////////////////////////////////////////////////////////////////////
+
+/* The position of a light in the room is given as an axis-aligned box.
+ * This position is given as relative to its device. */
+ message LightLocation {
+    int min_x = 0;
+    int min_y = 1;
+    int min_z = 2;
+
+    int max_x = 3;
+    int max_y = 4;
+    int max_z = 5;
+}
+/* Devices do not emit light, their coordinates are given as a (3D) point 
+ * and scaling factor that's applied uniformly to the contained lights
+ */
+ message DeviceLocation {
+    int x = 0;
+    int y = 1;
+    int z = 2;
+
+    float scale_x = 3;
+    float scale_y = 4;
+    float scale_z = 5;
+}

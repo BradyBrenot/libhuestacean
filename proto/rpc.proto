@@ -1,0 +1,59 @@
+import "types.proto";
+syntax = "proto3";
+
+message GetLightProvidersRequest {
+    //optional: if set, only return the given providers
+    repeated int light_provider_id = 0;
+}
+
+message GetLightProvidersResponse {
+    map<int, LightProvider> providers = 0;
+}
+
+message GetDevicesRequest {
+    //optional: if set, only return *this* device
+    repeated int device_id = 0;
+
+    //optional: if set, only return devices for *this* provider
+    repeated int light_provider_id = 1;
+}
+
+message GetDevicesResponse {
+    map<int, Device> devices = 0;
+}
+
+message GetRoomsRequest {
+    //optional: if set, only return *this* room
+    repeated int room_id = 0;
+}
+
+message GetRoomsResponse {
+    map<int, Room> rooms = 0;
+}
+
+message GetLightProviderArchetypesRequest {
+    //optional: if set, only return *this* archetype
+    repeated int archetype_id = 0;
+}
+
+message GetLightProviderArchetypesResponse {
+    map<int, LightProviderArchetype> provider_archetypes = 0;
+}
+
+message GetDeviceArchetypesRequest {
+    //optional: if set, only return *this* archetype
+    repeated int archetype_id = 0;
+}
+
+message GetDeviceArchetypesResponse {
+    map<int, DeviceArchetype> device_archetypes = 0;
+}
+
+service HuestaceanServer {
+    rpc GetLightProviders(GetLightProvidersRequest) returns (GetLightProvidersResponse);
+    rpc GetDevices(GetDevicesRequest) returns (GetDevicesResponse);
+    rpc GetRooms(GetRoomsRequest) returns (GetRoomsResponse);
+
+    rpc GetLightProviderArchetypes(GetLightProviderArchetypesRequest) returns (GetLightProviderArchetypesResponse);
+    rpc GetDeviceArchetypes(GetDeviceArchetypesRequest) returns (GetDeviceArchetypesResponse);
+}
