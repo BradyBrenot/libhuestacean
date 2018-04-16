@@ -49,7 +49,7 @@ function(PROTOBUF_GENERATE_GRPC_CPP SRCS HDRS)
     get_filename_component(ABS_FIL ${FIL} ABSOLUTE)
     get_filename_component(FIL_WE ${FIL} NAME_WE)
 
-    list(APPEND ${SRCS} "${CMAKE_CURRENT_BINARY_DIR}/${/${FIL_WE}.grpc.pb.cc")
+    list(APPEND ${SRCS} "${CMAKE_CURRENT_BINARY_DIR}/${FIL_WE}.grpc.pb.cc")
     list(APPEND ${HDRS} "${CMAKE_CURRENT_BINARY_DIR}/${FIL_WE}.grpc.pb.h")
 
     add_custom_command(

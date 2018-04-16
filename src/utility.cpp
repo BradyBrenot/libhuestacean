@@ -1,5 +1,4 @@
 #include "utility.h"
-#include <QDebug>
 
 void Color::XYZ_to_LCh(double& X, double& Y, double& Z, double& L, double& C, double& h)
 {

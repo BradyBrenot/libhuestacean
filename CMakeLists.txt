@@ -8,6 +8,8 @@ set(CMAKE_CXX_STANDARD 11)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTORCC ON)
 
+project(libhuestacean)
+
 #############################################
 # Gen protocol buffer and grpc code.
 # Following gRPC helloworld CMake example
@@ -39,7 +41,8 @@ else()
 	set(GRPC_CPP_PLUGIN $<TARGET_FILE:grpc_cpp_plugin>)
 endif()
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_CURRENT_SOURCE_DIR}/cmake/")
+message(STATUS "************ ${CMAKE_MODULE_PATH}")
 
 # Proto file
 get_filename_component(RPC_PROTO "proto/rpc.proto" ABSOLUTE)
@@ -47,14 +50,18 @@ get_filename_component(PROTO_PATH "${RPC_PROTO}" PATH)
 
 file(GLOB ProtoFiles "${CMAKE_CURRENT_SOURCE_DIR}/proto/*.proto")
 
+include(FindGRPC REQUIRED)
 include(FindPbuf REQUIRED)
 SET(PROTOBUF_IMPORT_DIRS "${CMAKE_CURRENT_SOURCE_DIR}/proto")
 SET(PROTOBUF_GENERATE_CPP_APPEND_PATH 1)
 PROTOBUF_GEN_CPP(PROTO_SOURCES PROTO_HEADERS ${ProtoFiles})
 PROTOBUF_GENERATE_GRPC_CPP(GRPC_SOURCES GRPC_HEADERS ${ProtoFiles})
-
-include_directories("${CMAKE_CURRENT_BINARY_DIR}")
 #############################################
+
+include_directories(
+	"${CMAKE_CURRENT_BINARY_DIR}"
+	"${CMAKE_CURRENT_SOURCE_DIR}/include"
+)
 
 set(SOURCES
    ${SOURCES}
@@ -65,16 +72,26 @@ set(HEADERS
    ${CMAKE_CURRENT_SOURCE_DIR}/include/utility.h
 )
 
-add_library(libhuestacean STATIC
-	${PROTO_SOURCES}
-	${GRPC_SOURCES}
-	${PROTO_HEADERS}
-	${GRPC_HEADERS}
-	${HEADERS}
-)
-target_link_libraries(libhuestacean
-	${_GRPC_GRPCPP_UNSECURE}
-	${_PROTOBUF_LIBPROTOBUF}
-)
+if(WINDOWS)
+	add_definitions("-D_WIN32_WINNT=0x0600")
+endif()
 
-project(libhuestacean)
+if(NOT HUESTACEAN_NO_CLIENT)
+	add_library(libhuestacean STATIC
+		${PROTO_SOURCES}
+		${GRPC_SOURCES}
+		${PROTO_HEADERS}
+		${GRPC_HEADERS}
+		${HEADERS}
+		${SOURCES}
+	)
+	target_link_libraries(libhuestacean
+		${_GRPC_GRPCPP_UNSECURE}
+		${_PROTOBUF_LIBPROTOBUF}
+	)
+else()
+	add_library(libhuestacean STATIC
+		${HEADERS}
+		${SOURCES}
+	)
+endif()

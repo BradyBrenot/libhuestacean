@@ -2,7 +2,6 @@
 
 #include <cmath>
 #include <algorithm>
-#include <QDebug>
 
 namespace Color
 {
