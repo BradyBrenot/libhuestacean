@@ -1,52 +1,55 @@
-import "types.proto";
 syntax = "proto3";
+
+import "device.proto";
+import "room.proto";
+//import "scene.proto";
 
 message GetLightProvidersRequest {
     //optional: if set, only return the given providers
-    repeated int light_provider_id = 0;
+    repeated uint32 light_provider_id = 1;
 }
 
 message GetLightProvidersResponse {
-    map<int, LightProvider> providers = 0;
+    map<uint32, LightProvider> providers = 1;
 }
 
 message GetDevicesRequest {
     //optional: if set, only return *this* device
-    repeated int device_id = 0;
+    repeated uint32 device_id = 1;
 
     //optional: if set, only return devices for *this* provider
-    repeated int light_provider_id = 1;
+    repeated uint32 light_provider_id = 2;
 }
 
 message GetDevicesResponse {
-    map<int, Device> devices = 0;
+    map<uint32, Device> devices = 1;
 }
 
 message GetRoomsRequest {
     //optional: if set, only return *this* room
-    repeated int room_id = 0;
+    repeated uint32 room_id = 1;
 }
 
 message GetRoomsResponse {
-    map<int, Room> rooms = 0;
+    map<uint32, Room> rooms = 1;
 }
 
 message GetLightProviderArchetypesRequest {
     //optional: if set, only return *this* archetype
-    repeated int archetype_id = 0;
+    repeated uint32 archetype_id = 1;
 }
 
 message GetLightProviderArchetypesResponse {
-    map<int, LightProviderArchetype> provider_archetypes = 0;
+    map<uint32, LightProviderArchetype> provider_archetypes = 1;
 }
 
 message GetDeviceArchetypesRequest {
     //optional: if set, only return *this* archetype
-    repeated int archetype_id = 0;
+    repeated uint32 archetype_id = 1;
 }
 
 message GetDeviceArchetypesResponse {
-    map<int, DeviceArchetype> device_archetypes = 0;
+    map<uint32, DeviceArchetype> device_archetypes = 1;
 }
 
 service HuestaceanServer {
