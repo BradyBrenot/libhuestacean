@@ -3,19 +3,9 @@ import "device.proto";
 
 /* A room contains a bunch of devices with given spatial location */
 message Room {
-    /* The location of a device and its constituent lights within a room */
-    message DeviceInRoom {
-        //location of the device
-        DeviceLocation device_location = 1;
-
-        //location of the lights connected to the device, if they are moveable
-        //the key, an int, is unique only _within_ this device; e.g. two Devices may have the same Light0
-        map<uint32,LightLocation> light_location = 2;
-    }
-
     //The name of this room
     string name = 1;
 
     //Devices contained within this room, along with their location
-    map<uint32, DeviceInRoom> devices = 2;
+    map<uint32, DeviceLocation> devices = 2;
 }
