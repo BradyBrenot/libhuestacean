@@ -1,7 +1,7 @@
 syntax = "proto3";
 
 /* Describes a type of light provider known by the daemon */
-message LightProviderArchetype {
+message DeviceProviderArchetype {
     //Archetype's name, e.g. "Philips Hue bridge"
     string name = 1;
 
@@ -29,10 +29,10 @@ message DeviceArchetype {
 
 ////////////////////////////////////////////////////////////////////////
 
-/* LightProvider is a service the daemon is using to connect to lights, 
+/* DeviceProvider is a service the daemon is using to connect to lights, 
  * e.g. it may be a single Hue bridge, or it may be the Razer Chroma SDK 
  */
- message LightProvider {
+ message DeviceProvider {
     //What sort of light provider is this? This is the underlying tech / API being used.
     uint32 archetype_id = 1;
 
