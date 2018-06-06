@@ -1,4 +1,5 @@
 syntax = "proto3";
+package libhuestacean;
 
 import "device.proto";
 import "room.proto";

@@ -1,4 +1,6 @@
 syntax = "proto3";
+package libhuestacean;
+
 import "device.proto";
 
 /* A room contains a bunch of devices with given spatial location */

@@ -1,4 +1,5 @@
 syntax = "proto3";
+package libhuestacean;
 
 /* Describes a type of light provider known by the daemon */
 message DeviceProviderArchetype {

@@ -1,1 +1,2 @@
 syntax = "proto3";
+package libhuestacean;
