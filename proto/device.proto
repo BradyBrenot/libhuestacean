@@ -21,7 +21,9 @@ message DeviceArchetypeLight {
 /* Describes a type of device known by the daemon */
 message DeviceArchetype {
     //Whether the lights contained within can be moved (if not, only the whole device can be moved)
-    bool are_lights_movable = 1;
+    //At the moment, we are assuming lights are not moveable. If a "device" has moveable lights, the
+    //daemon must present it as though it's multiple devices.
+    //bool are_lights_movable = 1;
     
     //This device's lights, with their default location.
     //the key, an int, is unique only _within_ this device; e.g. two Devices may have the same Light0
@@ -51,6 +53,13 @@ message DeviceArchetype {
 	State state = 3;
 }
 
+//Color for one light. Color is in HSLuv, *not* the common RGB HSL
+message LightColor {
+    double h = 1;
+    double s = 2;
+    double l = 3;
+}
+
 /* Devices are a thing in the real-world that emit light, and that Huestacean can control. */
 message Device {
     //What sort of light is this? This is the underlying tech / API being used.
@@ -58,6 +67,9 @@ message Device {
 
     //The device's friendly name, if it has one
     uint32 name = 2;
+
+    //All of this device's lights' colors
+    map<uint32, LightColor> lights = 3;
 }
 
 ////////////////////////////////////////////////////////////////////////
