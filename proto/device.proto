@@ -39,6 +39,16 @@ message DeviceArchetype {
 
     //Name of the light provider. Disambiguates between providers of the same archetype.
     string name = 2;
+
+	enum State {
+		Disconnected = 0;	//Not connected and presently not trying to connect
+		Connecting = 1;		//In the process of connecting
+		PendingLink = 2;	//Requires user intervention for pairing to complete connection
+		Connected = 3;		//Connected, can be used
+	}
+
+	//Current state this DeviceProvider is in
+	State state = 3;
 }
 
 /* Devices are a thing in the real-world that emit light, and that Huestacean can control. */

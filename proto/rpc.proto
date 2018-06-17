@@ -5,6 +5,9 @@ import "device.proto";
 import "room.proto";
 //import "scene.proto";
 
+//////////////////////////////////////////////////////////////////////////
+// Getters
+
 message GetDeviceProvidersRequest {
     //optional: if set, only return the given providers
     repeated uint32 light_provider_id = 1;
@@ -19,7 +22,7 @@ message GetDevicesRequest {
     repeated uint32 device_id = 1;
 
     //optional: if set, only return devices for *this* provider
-    repeated uint32 light_provider_id = 2;
+    repeated uint32 provider_id = 2;
 }
 
 message GetDevicesResponse {
@@ -53,11 +56,32 @@ message GetDeviceArchetypesResponse {
     map<uint32, DeviceArchetype> device_archetypes = 1;
 }
 
+//////////////////////////////////////////////////////////////////////////
+// Commands
+
+message LinkRequest {
+    uint32 device_id = 1;
+}
+message LinkResponse {
+}
+
+//////////////////////////////////////////////////////////////////////////
+// RPCs
+
 service HuestaceanServer {
+
+	//////////////////////////////////////////////////////////////////////////
+	// Getters
+
     rpc GetDeviceProviders(GetDeviceProvidersRequest) returns (GetDeviceProvidersResponse);
     rpc GetDevices(GetDevicesRequest) returns (GetDevicesResponse);
     rpc GetRooms(GetRoomsRequest) returns (GetRoomsResponse);
 
     rpc GetDeviceProviderArchetypes(GetDeviceProviderArchetypesRequest) returns (GetDeviceProviderArchetypesResponse);
     rpc GetDeviceArchetypes(GetDeviceArchetypesRequest) returns (GetDeviceArchetypesResponse);
+
+	//////////////////////////////////////////////////////////////////////////
+	// Commands
+
+	rpc Link(LinkRequest) returns (LinkResponse);
 }
