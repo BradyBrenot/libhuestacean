@@ -1,2 +1,21 @@
 syntax = "proto3";
 package libhuestacean;
+
+message Scene {
+    //The name of this scene
+    string name = 1;
+
+	map<uint32, EffectType> effects = 2;
+}
+
+enum EffectType {
+	SCREENSYNC = 0;
+	AUDIOSYNC = 1;
+	SOLID = 2;
+	PULSE = 3;
+	POINT = 4;
+	CONE = 5;
+	RECTANGLE = 6;
+	RIPPLE = 7;
+	FLICKER = 8;
+}

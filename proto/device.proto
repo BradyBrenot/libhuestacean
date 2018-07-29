@@ -66,7 +66,7 @@ message Device {
     uint32 archetype_id = 1;
 
     //The device's friendly name, if it has one
-    uint32 name = 2;
+    string name = 2;
 
     //All of this device's lights' colors
     map<uint32, LightColor> lights = 3;
@@ -75,7 +75,8 @@ message Device {
 ////////////////////////////////////////////////////////////////////////
 
 /* The position of a light in the room is given as an axis-aligned box.
- * This position is given as relative to its device. */
+ * This position is given as relative to its device.
+ */
  message LightLocation {
     float min_x = 1;
     float min_y = 2;
@@ -85,15 +86,15 @@ message Device {
     float max_y = 5;
     float max_z = 6;
 }
-/* Devices do not emit light, their coordinates are given as a (3D) point 
- * and scaling factor that's applied uniformly to the contained lights
+/* Devices do not emit light, their coordinates are given as a (3D) point
+ * which in turn positions and scales the lights contained within
  */
  message DeviceLocation {
-    float x = 1;
-    float y = 2;
-    float z = 3;
+    float min_x = 1;
+    float min_y = 2;
+    float min_z = 3;
 
-    float scale_x = 4;
-    float scale_y = 5;
-    float scale_z = 6;
+    float max_x = 4;
+    float max_y = 5;
+    float max_z = 6;
 }
